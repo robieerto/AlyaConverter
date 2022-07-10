@@ -5,9 +5,9 @@
 #include "AlyaConverter.h"
 
 // for testing purposes
-char input[12] = { 'a', 'b', '\x0d', (char)0b11111111, '+', '9', '9', '9', '.', '9', '9', '\x0d' };
+char input[12] = { 'a', 'b', '\x0d', (char)0b11111111, '+', '0', '0', '0', '5', '.', '5', '\x0d' };
 // new output format
-char output[13];
+char output[14];
 
 ParsingState state = sync;
 WeighingInputFormat inputFormat;
@@ -52,7 +52,7 @@ bool parseInput(char inputChar) {
 }
 
 // find index of decimal dot in input
-uint8_t findDecimalPoint() {
+int8_t findDecimalPoint() {
     for (int8_t i = 0; i < WEIGHT_SIZE; i++) {
         if (inputFormat.weight[i] == '.') {
             return i;
@@ -75,8 +75,8 @@ void convertOutput() {
         output[2] = (inputFormat.isStabilized) ? 'S' : 'U';
     }
     // NDC: number of decimal digits
-    uint8_t decPoint = findDecimalPoint(); // if it isn't found (-1), number is 0
-    output[3] = (decPoint >= 0) ? WEIGHT_SIZE - 1 - decPoint : 0;
+    int8_t decPoint = findDecimalPoint(); // if it isn't found (-1), number is 0
+    output[3] = '0' + ((decPoint >= 0) ? (WEIGHT_SIZE - 1 - decPoint) : 0);
     // SGN: sign
     output[4] = (inputFormat.sign == '-') ? '-' : ' ';
     // W1 - W6: measuring value
