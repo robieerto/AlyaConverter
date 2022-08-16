@@ -68,7 +68,7 @@ void convertOutput() {
     // MODE: M - measuring, P - counting, O - other
     output[1] = 'M';
     // STAB: if weighing is stabilized
-    if (inputFormat.isOutOfRange || inputFormat.isUnderMinRange) {
+    if (inputFormat.isOutOfRange) {
         output[2] = 'F';
     }
     else {
